@@ -1,20 +1,36 @@
+import { Link, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage.jsx";
+import NewsPage from "./pages/NewsPage.jsx";
+import NewsDetailPage from "./pages/NewsDetailPage.jsx";
+
 function App() {
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-16 text-slate-900">
-      <section className="mx-auto max-w-3xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-red-700">
-          The Daily Brief
-        </p>
-        <h1 className="mt-5 text-4xl font-bold tracking-tight sm:text-6xl">
-          Your news portal starts here.
-        </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-600">
-          The project foundation is ready. Next, we’ll connect the database and
-          build the news experience.
-        </p>
-      </section>
-    </main>
-  )
+    <div className="flex min-h-screen flex-col bg-stone-50 text-slate-900">
+      <header className="border-b border-stone-200 bg-white">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+          <Link className="text-xl font-bold tracking-tight" to="/">
+            The Daily Brief
+          </Link>
+          <Link className="text-sm font-medium text-slate-600 hover:text-red-700" to="/news">
+            All News
+          </Link>
+        </nav>
+      </header>
+
+      <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/news/:slug" element={<NewsDetailPage />} />
+          <Route path="*" element={<p>Page not found.</p>} />
+        </Routes>
+      </main>
+
+      <footer className="border-t border-stone-200 bg-white px-6 py-6 text-center text-sm text-slate-500">
+        The Daily Brief
+      </footer>
+    </div>
+  );
 }
 
-export default App
+export default App;

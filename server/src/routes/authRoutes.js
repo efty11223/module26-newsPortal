@@ -38,7 +38,8 @@ router.post("/register", async (req, res) => {
     password.length < 6
   ) {
     res.status(400).json({
-      message: "Name, email, and a password of at least 6 characters are required.",
+      message:
+        "Name, email, and a password of at least 6 characters are required.",
     });
     return;
   }
@@ -52,7 +53,9 @@ router.post("/register", async (req, res) => {
   const existingUser = await User.findOne({ email: normalizedEmail });
 
   if (existingUser) {
-    res.status(409).json({ message: "An account with this email already exists." });
+    res
+      .status(409)
+      .json({ message: "An account with this email already exists." });
     return;
   }
 
@@ -68,7 +71,11 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body ?? {};
 
-  if (typeof email !== "string" || !email.trim() || typeof password !== "string") {
+  if (
+    typeof email !== "string" ||
+    !email.trim() ||
+    typeof password !== "string"
+  ) {
     res.status(400).json({ message: "Email and password are required." });
     return;
   }
@@ -78,8 +85,9 @@ router.post("/login", async (req, res) => {
     return;
   }
 
-  const user = await User.findOne({ email: email.trim().toLowerCase() })
-    .select("+passwordHash");
+  const user = await User.findOne({ email: email.trim().toLowerCase() }).select(
+    "+passwordHash",
+  );
 
   if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
     res.status(401).json({ message: "Email or password is incorrect." });
@@ -90,6 +98,28 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/me", requireAuth, (req, res) => {
+  res.json({ user: publicUser(req.user) });
+});
+
+router.put("/me", requireAuth, async (req, res) => {
+  const { fullName, bio } = req.body ?? {};
+
+  if (typeof fullName !== "string" || !fullName.trim()) {
+    res.status(400).json({ message: "Name is required." });
+    return;
+  }
+
+  if (bio !== undefined && typeof bio !== "string") {
+    res.status(400).json({ message: "Bio must be text." });
+    return;
+  }
+
+  req.user.fullName = fullName.trim();
+  if (bio !== undefined) {
+    req.user.bio = bio.trim();
+  }
+  await req.user.save();
+
   res.json({ user: publicUser(req.user) });
 });
 

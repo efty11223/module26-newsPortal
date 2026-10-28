@@ -1,7 +1,8 @@
 # The Daily Brief
 
-A full-stack news portal built with React, Redux Toolkit, Tailwind CSS, Express,
-and MongoDB.
+A news portal assignment using React, Redux Toolkit, Tailwind CSS, Express, and
+MongoDB. The public home, news list, and article detail pages are connected to
+the backend API.
 
 ## Project structure
 
@@ -41,18 +42,21 @@ The API exits with a clear error if MongoDB cannot be reached.
 - `POST /api/auth/login` — log in and receive a token.
 - `GET /api/auth/me` — return the logged-in user. Send the token as a
   `Bearer` authorization header.
+- `PUT /api/auth/me` — update your name and bio.
 
 ## News API
 
 - `GET /api/news` — list published articles.
 - `GET /api/news/featured` — the six latest published articles.
 - `GET /api/news/:slug` — retrieve one published article.
-
-Article creation and editing will be added with authenticated routes.
+- `GET /api/news/my` — list your articles (login required).
+- `POST /api/news` — create and publish an article (login required).
+- `PUT /api/news/:id` — edit your article (login required).
+- `DELETE /api/news/:id` — delete your article (login required).
 
 ## Data models
 
-- `User` stores profile details and a `passwordHash` (never a plaintext
-  password). Authentication will explicitly select the hash when needed.
+- `User` stores profile details and a password hash, never a plaintext
+  password. Login checks the stored hash.
 - `News` stores article content, category, author, and publication status.
-  Articles are drafts by default.
+  User-created articles are published immediately.
