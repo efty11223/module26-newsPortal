@@ -37,7 +37,7 @@ function NewsDetailPage() {
       </p>
       {article.coverImageUrl && (
         <img
-          className="mt-8 max-h-[28rem] w-full rounded-lg object-cover"
+          className="mt-8 max-h-[28rem] w-full rounded-lg object-contain"
           src={article.coverImageUrl}
           alt=""
         />

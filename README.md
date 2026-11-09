@@ -2,7 +2,8 @@
 
 A news portal assignment using React, Redux Toolkit, Tailwind CSS, Express, and
 MongoDB. The public home, news list, and article detail pages are connected to
-the backend API.
+the backend API, with login, registration, and a user dashboard for managing
+profiles and articles.
 
 ## Project structure
 

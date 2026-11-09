@@ -1,9 +1,16 @@
 import { Link, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import HomePage from "./pages/HomePage.jsx";
 import NewsPage from "./pages/NewsPage.jsx";
 import NewsDetailPage from "./pages/NewsDetailPage.jsx";
+import AuthPage from "./pages/AuthPage.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+import { clearUser } from "./features/auth/authSlice.js";
 
 function App() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+
   return (
     <div className="flex min-h-screen flex-col bg-stone-50 text-slate-900">
       <header className="border-b border-stone-200 bg-white">
@@ -11,9 +18,34 @@ function App() {
           <Link className="text-xl font-bold tracking-tight" to="/">
             The Daily Brief
           </Link>
-          <Link className="text-sm font-medium text-slate-600 hover:text-red-700" to="/news">
-            All News
-          </Link>
+          <div className="flex items-center gap-5">
+            <Link className="text-sm font-medium text-slate-600 hover:text-red-700" to="/news">
+              All News
+            </Link>
+            {user ? (
+              <>
+                <Link className="text-sm font-medium text-slate-600" to="/dashboard">
+                  Dashboard
+                </Link>
+                <span className="hidden text-sm text-slate-600 sm:inline">{user.fullName}</span>
+                <button
+                  className="text-sm font-medium text-red-700"
+                  onClick={() => dispatch(clearUser())}
+                >
+                  Log out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link className="text-sm font-medium text-slate-600" to="/login">
+                  Log in
+                </Link>
+                <Link className="text-sm font-medium text-red-700" to="/register">
+                  Register
+                </Link>
+              </>
+            )}
+          </div>
         </nav>
       </header>
 
@@ -22,6 +54,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/news/:slug" element={<NewsDetailPage />} />
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="/register" element={<AuthPage register />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="*" element={<p>Page not found.</p>} />
         </Routes>
       </main>

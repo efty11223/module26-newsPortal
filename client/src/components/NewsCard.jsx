@@ -5,7 +5,7 @@ function NewsCard({ article }) {
     <article className="overflow-hidden rounded-lg border border-stone-200 bg-white">
       {article.coverImageUrl && (
         <img
-          className="h-48 w-full object-cover"
+          className="h-48 w-full object-contain"
           src={article.coverImageUrl}
           alt=""
         />
@@ -17,7 +17,9 @@ function NewsCard({ article }) {
             {article.title}
           </Link>
         </h2>
-        <p className="mt-3 text-sm leading-6 text-slate-600">{article.excerpt}</p>
+        <p className="mt-3 text-sm leading-6 text-slate-600">
+          {article.excerpt}
+        </p>
         <p className="mt-4 text-xs text-slate-500">
           {article.author?.fullName || "The Daily Brief"}
         </p>
