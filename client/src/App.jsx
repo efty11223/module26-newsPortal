@@ -5,6 +5,7 @@ import NewsPage from "./pages/NewsPage.jsx";
 import NewsDetailPage from "./pages/NewsDetailPage.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
+import ContactPage from "./pages/ContactPage.jsx";
 import { clearUser } from "./features/auth/authSlice.js";
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
           <div className="flex items-center gap-5">
             <Link className="text-sm font-medium text-slate-600 hover:text-red-700" to="/news">
               All News
+            </Link>
+            <Link className="text-sm font-medium text-slate-600 hover:text-red-700" to="/contact">
+              Contact
             </Link>
             {user ? (
               <>
@@ -57,6 +61,7 @@ function App() {
           <Route path="/login" element={<AuthPage />} />
           <Route path="/register" element={<AuthPage register />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<p>Page not found.</p>} />
         </Routes>
       </main>
